@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>紅雁 - 懸疑解謎</title>
+  <style>
+    :root {
+      --bg-color: #0d0606;
+      --card-bg: #211111;
+      --text-color: #d4c2a5;
+      --accent-red: #8b0000;
+      --gold: #d4af37;
+      --font-family: "Kaiti", "STKaiti", "KaiTi", "SimSun", serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #000;
+      color: var(--text-color);
+      font-family: var(--font-family);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Mobile Container Frame */
+    #game-container {
+      width: 100%;
+      max-width: 480px;
+      height: 100vh;
+      background: radial-gradient(circle, #1a0808 0%, #050202 100%);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+      transition: background 1.5s ease;
+    }
+
+    /* Scene Styling */
+    .scene {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 72%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.8s ease-in-out;
+      padding: 20px;
+    }
+
+    .scene.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Dialogue Box */
+    #dialogue-box {
+      height: 28%;
+      background: rgba(15, 8, 8, 0.95);
+      border-top: 2px solid var(--accent-red);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 10;
+      box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
+    }
+
+    #speaker-name {
+      color: var(--gold);
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    #dialogue-text {
+      color: var(--text-color);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    /* Scene 1 Elements: Box & Seal */
+    .wooden-box {
+      width: 200px;
+      height: 160px;
+      background: #2a160f;
+      border: 4px solid #140a07;
+      border-radius: 8px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+      cursor: pointer;
+    }
+
+    .twine-rope {
+      position: absolute;
+      width: 100%;
+      height: 12px;
+      background: #8c6d46;
+      border-top: 2px dashed #4a3821;
+      border-bottom: 2px dashed #4a3821;
+      transition: opacity 0.5s;
+    }
+
+    .wax-seal {
+      width: 64px;
+      height: 64px;
+      background: radial-gradient(circle, #b30000 0%, #5a0000 100%);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--gold);
+      font-size: 1.4rem;
+      font-weight: bold;
+      border: 2px dashed #800000;
+      box-shadow: 0 0 10px rgba(179, 0, 0, 0.5);
+      z-index: 2;
+      transition: transform 0.3s, opacity 0.5s;
+    }
+
+    /* Scene 2 Elements: Puzzle Dial */
+    .parchment {
+      width: 85%;
+      background: #cbb291;
+      color: #2b1810;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .hidden-ink {
+      color: transparent;
+      transition: color 0.8s ease;
+      font-weight: bold;
+    }
+
+    .hidden-ink.revealed {
+      color: #8b0000;
+      text-shadow: 0 0 2px rgba(139, 0, 0, 0.3);
+    }
+
+    .dial-lock {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .dial-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .dial-btn {
+      background: #2b1810;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      width: 40px;
+      height: 30px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .dial-value {
+      width: 60px;
+      height: 50px;
+      background: #110808;
+      border: 2px solid var(--accent-red);
+      color: var(--gold);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.4rem;
+      margin: 8px 0;
+      border-radius: 4px;
+    }
+
+    .action-btn {
+      margin-top: 15px;
+      padding: 10px 24px;
+      background: var(--accent-red);
+      color: #fff;
+      border: 1px solid var(--gold);
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-family: var(--font-family);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    /* Scene 3: Birthday Celebration Theme */
+    #game-container.celebration-theme {
+      background: radial-gradient(circle, #fff5e6 0%, #f7d6bd 100%);
+      --text-color: #4a2c2c;
+      --accent-red: #ff6b81;
+      --gold: #d4af37;
+    }
+
+    #game-container.celebration-theme #dialogue-box {
+      background: rgba(255, 255, 255, 0.9);
+      border-top: 3px solid #ff6b81;
+    }
+
+    .chibi-avatars {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      animation: bounce 2s infinite ease-in-out;
+    }
+
+    .chibi-card {
+      width: 70px;
+      height: 90px;
+      background: #fff;
+      border: 2px solid #ffb6c1;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .chibi-card span {
+      font-size: 0.8rem;
+      color: #333;
+      margin-top: 4px;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* Canvas for Confetti */
+    #confetti-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 99;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="game-container">
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- SCENE 1: THE BOX -->
+    <div id="scene-1" class="scene active">
+      <div class="wooden-box" id="wooden-box" onclick="handleBoxClick()">
+        <div class="twine-rope" id="twine-rope"></div>
+        <div class="wax-seal" id="wax-seal">封</div>
+      </div>
+    </div>
+
+    <!-- SCENE 2: THE PUZZLE -->
+    <div id="scene-2" class="scene">
+      <div class="parchment">
+        <p>「月影交輝，古木鎖心。」</p>
+        <p>解謎暗示：尋找屬於妳的特別日子。</p>
+        <p class="hidden-ink" id="secret-text">（提示：燭光映照出你的臉...）</p>
+      </div>
+
+      <button class="action-btn" style="margin-bottom: 10px; background: #4a3821;" onclick="useCandle()">點燃殘燭點驗紙條</button>
+
+      <div class="dial-lock">
+        <div class="dial-group">
+          <button class="dial-btn" onclick="changeDial('month', 1)">▲</button>
+          <div class="dial-value" id="month-val">一月</div>
+          <button class="dial-btn" onclick="changeDial('month', -1)">▼</button>
+        </div>
+        <div class="dial-group">
+          <button class="dial-btn" onclick="changeDial('day', 1)">▲</button>
+          <div class="dial-value" id="day-val">一日</div>
+          <button class="dial-btn" onclick="changeDial('day', -1)">▼</button>
+        </div>
+      </div>
+
+      <button class="action-btn" onclick="checkPuzzle()">開啟八卦鎖</button>
+    </div>
+
+    <!-- SCENE 3: THE BIRTHDAY REVEAL -->
+    <div id="scene-3" class="scene">
+      <div class="chibi-avatars">
+        <div class="chibi-card">🐱<span>我</span></div>
+        <div class="chibi-card">🎂<span>蛋糕</span></div>
+        <div class="chibi-card">👑<span>壽星</span></div>
+      </div>
+      <button class="action-btn" style="background: #ff6b81;" onclick="openRealGift()">點擊領取實體禮物線索</button>
+    </div>
+
+    <!-- DIALOGUE UI -->
+    <div id="dialogue-box">
+      <div id="speaker-name">神秘包裹</div>
+      <div id="dialogue-text">桌上放著盒古樸的木箱，上面用粗繩與朱砂封印緊緊鎖住。請點擊解開繩索。</div>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================
+       CONFIGURABLE GAME DATA
+       ========================================== */
+    const CONFIG = {
+      friendName: "親愛的Olivia",
+      targetMonth: 9,  // Target Month (1 to 12)
+      targetDay: 13,   // Target Day (1 to 31)
+      giftUrl: "https://example.com" // Replace with real link or custom message modal
+    };
+
+    const chineseNums = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "二十", "二十一", "二十二", "二十三", "二十四", "二十五", "二十六", "二十七", "二十八", "二十九", "三十", "三十一"];
+
+    /* ==========================================
+       GAME STATE MANAGEMENT
+       ========================================== */
+    let gameState = {
+      ropeCut: false,
+      sealBroken: false,
+      candleLit: false,
+      selectedMonth: 1,
+      selectedDay: 1
+    };
+
+    function updateDialogue(speaker, text) {
+      document.getElementById('speaker-name').innerText = speaker;
+      document.getElementById('dialogue-text').innerText = text;
+    }
+
+    /* Scene 1 Interaction */
+    function handleBoxClick() {
+      if (!gameState.ropeCut) {
+        gameState.ropeCut = true;
+        document.getElementById('twine-rope').style.opacity = '0';
+        updateDialogue("神秘包裹", "麻繩切斷了！但上面還有一個堅硬的朱砂封印，再點擊一次破開它。");
+      } else if (!gameState.sealBroken) {
+        gameState.sealBroken = true;
+        document.getElementById('wax-seal').style.transform = 'scale(1.3)';
+        document.getElementById('wax-seal').style.opacity = '0';
+        updateDialogue("神秘包裹", "朱砂封印碎裂！木盒緩緩打開，露出裡面的八卦轉盤鎖與一張古舊紙條。");
+
+        setTimeout(() => {
+          switchScene('scene-1', 'scene-2');
+          updateDialogue("八卦密碼鎖", "解開轉盤上的月份與日期之鎖，才能揭開盒底的最終秘密。");
+        }, 1200);
+      }
+    }
+
+    /* Scene 2 Interaction */
+    function useCandle() {
+      if (!gameState.candleLit) {
+        gameState.candleLit = true;
+        document.getElementById('secret-text').classList.add('revealed');
+        updateDialogue("殘燭", "燭光照亮了古紙背面的隱形朱砂字跡！那是屬於妳的特殊日子。");
+      }
+    }
+
+    function changeDial(type, delta) {
+      if (type === 'month') {
+        gameState.selectedMonth += delta;
+        if (gameState.selectedMonth > 12) gameState.selectedMonth = 1;
+        if (gameState.selectedMonth < 1) gameState.selectedMonth = 12;
+        document.getElementById('month-val').innerText = chineseNums[gameState.selectedMonth] + "月";
+      } else if (type === 'day') {
+        gameState.selectedDay += delta;
+        if (gameState.selectedDay > 31) gameState.selectedDay = 1;
+        if (gameState.selectedDay < 1) gameState.selectedDay = 31;
+        document.getElementById('day-val').innerText = chineseNums[gameState.selectedDay] + "日";
+      }
+    }
+
+    function checkPuzzle() {
+      if (gameState.selectedMonth === CONFIG.targetMonth && gameState.selectedDay === CONFIG.targetDay) {
+        updateDialogue("機關卡嗒聲", "密碼正確！古鎖轟然解開，陰暗的氣氛瞬間煙消雲散！");
+        setTimeout(() => {
+          triggerBirthdayReveal();
+        }, 1000);
+      } else {
+        updateDialogue("八卦密碼鎖", "轉盤紋絲不動...似乎日期組合並不正確。");
+      }
+    }
+
+    /* Scene 3 Birthday Twist */
+    function triggerBirthdayReveal() {
+      switchScene('scene-2', 'scene-3');
+      document.getElementById('game-container').classList.add('celebration-theme');
+      updateDialogue("HAPPY BIRTHDAY!", `驚喜！祝 ${CONFIG.friendName} 生日快樂！這不是陰森的懸疑故事，而是專屬於妳的生日祝福！`);
+      startConfetti();
+    }
+
+    function switchScene(fromId, toId) {
+      document.getElementById(fromId).classList.remove('active');
+      document.getElementById(toId).classList.add('active');
+    }
+
+    function openRealGift() {
+      alert(`🎉 祝福已被領取！`);
+    }
+
+    /* ==========================================
+       CONFETTI EFFECT (Pure JS Canvas)
+       ========================================== */
+    function startConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+
+      const particles = [];
+      const colors = ['#ff6b81', '#ffd700', '#ffb6c1', '#4bc0c0', '#9b59b6'];
+
+      for (let i = 0; i < 60; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          size: Math.random() * 8 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speedY: Math.random() * 3 + 2,
+          speedX: Math.random() * 2 - 1
+        });
+      }
+
+      function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.y += p.speedY;
+          p.x += p.speedX;
+          if (p.y > canvas.height) p.y = -10;
+          ctx.fillStyle = p.color;
+          ctx.fillRect(p.x, p.y, p.size, p.size);
+        });
+        requestAnimationFrame(render);
+      }
+      render();
+    }
+  </script>
+</body>
+</html>

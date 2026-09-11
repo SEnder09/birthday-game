@@ -70,6 +70,145 @@
       pointer-events: auto;
     }
 
+    /* Table Container for Scene 1 */
+    .table-surface {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      width: 100%;
+      max-width: 380px;
+      padding: 20px 10px;
+      background: rgba(30, 15, 12, 0.6);
+      border-bottom: 4px solid #140a07;
+      border-radius: 12px;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.8);
+    }
+
+    /* Walkie-Talkie Component */
+    .walkie-talkie {
+      width: 80px;
+      height: 140px;
+      background: #1a1a1a;
+      border: 3px solid #333;
+      border-radius: 10px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 5px;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.7);
+      transition: transform 0.15s ease, box-shadow 0.3s;
+    }
+
+    .walkie-talkie:active {
+      transform: scale(0.94);
+    }
+
+    .walkie-antenna {
+      position: absolute;
+      top: -26px;
+      left: 16px;
+      width: 7px;
+      height: 26px;
+      background: #333;
+      border-radius: 3px;
+    }
+
+    .walkie-led {
+      width: 8px;
+      height: 8px;
+      background: #ff3333;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #ff3333;
+      align-self: flex-end;
+      margin-right: 6px;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    .walkie-led.active {
+      background: #33ff33;
+      box-shadow: 0 0 8px #33ff33;
+    }
+
+    .walkie-grill {
+      width: 55px;
+      height: 50px;
+      background: repeating-linear-gradient(
+        0deg,
+        #111,
+        #111 4px,
+        #2a2a2a 4px,
+        #2a2a2a 7px
+      );
+      border-radius: 6px;
+      border: 1px solid #222;
+    }
+
+    .walkie-btn {
+      width: 45px;
+      height: 14px;
+      background: var(--accent-red);
+      border-radius: 4px;
+      font-size: 0.6rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Wooden Box Component */
+    .wooden-box {
+      width: 170px;
+      height: 140px;
+      background: #2a160f;
+      border: 4px solid #140a07;
+      border-radius: 8px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+
+    .wooden-box.ready {
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    }
+
+    .wooden-box:active {
+      transform: scale(0.96);
+    }
+
+    .twine-rope {
+      position: absolute;
+      width: 100%;
+      height: 12px;
+      background: #8c6d46;
+      border-top: 2px dashed #4a3821;
+      border-bottom: 2px dashed #4a3821;
+      transition: opacity 0.5s;
+    }
+
+    .wax-seal {
+      width: 56px;
+      height: 56px;
+      background: radial-gradient(circle, #b30000 0%, #5a0000 100%);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--gold);
+      font-size: 1.3rem;
+      font-weight: bold;
+      border: 2px dashed #800000;
+      box-shadow: 0 0 10px rgba(179, 0, 0, 0.5);
+      z-index: 2;
+      transition: transform 0.3s, opacity 0.5s;
+    }
+
     /* Dialogue Box */
     #dialogue-box {
       height: 28%;
@@ -92,50 +231,8 @@
 
     #dialogue-text {
       color: var(--text-color);
-      font-size: 1rem;
+      font-size: 0.95rem;
       line-height: 1.5;
-    }
-
-    /* Scene 1 Elements: Box & Seal */
-    .wooden-box {
-      width: 200px;
-      height: 160px;
-      background: #2a160f;
-      border: 4px solid #140a07;
-      border-radius: 8px;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
-      cursor: pointer;
-    }
-
-    .twine-rope {
-      position: absolute;
-      width: 100%;
-      height: 12px;
-      background: #8c6d46;
-      border-top: 2px dashed #4a3821;
-      border-bottom: 2px dashed #4a3821;
-      transition: opacity 0.5s;
-    }
-
-    .wax-seal {
-      width: 64px;
-      height: 64px;
-      background: radial-gradient(circle, #b30000 0%, #5a0000 100%);
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--gold);
-      font-size: 1.4rem;
-      font-weight: bold;
-      border: 2px dashed #800000;
-      box-shadow: 0 0 10px rgba(179, 0, 0, 0.5);
-      z-index: 2;
-      transition: transform 0.3s, opacity 0.5s;
     }
 
     /* Scene 2 Elements: Puzzle Dial */
@@ -187,7 +284,7 @@
     }
 
     .dial-value {
-      width: 60px;
+      width: 65px;
       height: 50px;
       background: #110808;
       border: 2px solid var(--accent-red);
@@ -195,7 +292,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       margin: 8px 0;
       border-radius: 4px;
     }
@@ -258,7 +355,6 @@
       50% { transform: translateY(-8px); }
     }
 
-    /* Canvas for Confetti */
     #confetti-canvas {
       position: absolute;
       top: 0;
@@ -275,11 +371,22 @@
   <div id="game-container">
     <canvas id="confetti-canvas"></canvas>
 
-    <!-- SCENE 1: THE BOX -->
+    <!-- SCENE 1: THE ROOM & TABLE -->
     <div id="scene-1" class="scene active">
-      <div class="wooden-box" id="wooden-box" onclick="handleBoxClick()">
-        <div class="twine-rope" id="twine-rope"></div>
-        <div class="wax-seal" id="wax-seal">封</div>
+      <div class="table-surface">
+        <!-- Walkie Talkie -->
+        <div class="walkie-talkie" id="walkie-talkie" onclick="handleWalkieClick()">
+          <div class="walkie-antenna"></div>
+          <div class="walkie-led" id="walkie-led"></div>
+          <div class="walkie-grill"></div>
+          <div class="walkie-btn">TALK</div>
+        </div>
+
+        <!-- Wooden Box -->
+        <div class="wooden-box" id="wooden-box" onclick="handleBoxClick()">
+          <div class="twine-rope" id="twine-rope"></div>
+          <div class="wax-seal" id="wax-seal">封</div>
+        </div>
       </div>
     </div>
 
@@ -288,7 +395,7 @@
       <div class="parchment">
         <p>「月影交輝，古木鎖心。」</p>
         <p>解謎暗示：尋找屬於妳的特別日子。</p>
-        <p class="hidden-ink" id="secret-text">（提示：燭光映照出你的臉...）</p>
+        <p class="hidden-ink" id="secret-text">（提示：燭光映照出九月與十三日...）</p>
       </div>
 
       <button class="action-btn" style="margin-bottom: 10px; background: #4a3821;" onclick="useCandle()">點燃殘燭點驗紙條</button>
@@ -321,28 +428,24 @@
 
     <!-- DIALOGUE UI -->
     <div id="dialogue-box">
-      <div id="speaker-name">神秘包裹</div>
-      <div id="dialogue-text">桌上放著盒古樸的木箱，上面用粗繩與朱砂封印緊緊鎖住。請點擊解開繩索。</div>
+      <div id="speaker-name">我</div>
+      <div id="dialogue-text">奇怪……明明約好了今天在這裡聚會，為什麼房間裏一個人也沒有？桌上只留著一部對講機和一個木盒……</div>
     </div>
   </div>
 
   <script>
-    /* ==========================================
-       CONFIGURABLE GAME DATA
-       ========================================== */
+    /* CONFIGURATION */
     const CONFIG = {
-      friendName: "親愛的Olivia",
-      targetMonth: 9,  // Target Month (1 to 12)
-      targetDay: 13,   // Target Day (1 to 31)
-      giftUrl: "https://example.com" // Replace with real link or custom message modal
+      friendName: "親愛的壽星",
+      targetMonth: 9,  // 9月
+      targetDay: 13,   // 13日
     };
 
     const chineseNums = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "二十", "二十一", "二十二", "二十三", "二十四", "二十五", "二十六", "二十七", "二十八", "二十九", "三十", "三十一"];
 
-    /* ==========================================
-       GAME STATE MANAGEMENT
-       ========================================== */
+    /* GAME STATE */
     let gameState = {
+      walkieCount: 0,
       ropeCut: false,
       sealBroken: false,
       candleLit: false,
@@ -355,17 +458,47 @@
       document.getElementById('dialogue-text').innerText = text;
     }
 
-    /* Scene 1 Interaction */
+    /* Scene 1: Walkie Talkie Interaction */
+    function handleWalkieClick() {
+      if ("vibrate" in navigator) navigator.vibrate(40);
+
+      if (gameState.walkieCount < 9) {
+        gameState.walkieCount++;
+        let zizi = "滋".repeat(gameState.walkieCount);
+        updateDialogue("對講機", `「${zizi}……沙沙聲……」只有沙沙聲，完全沒有人回應。`);
+
+        if (gameState.walkieCount === 9) {
+          document.getElementById('walkie-led').classList.add('active');
+          if ("vibrate" in navigator) navigator.vibrate([100, 50, 100, 50, 200]);
+          setTimeout(() => {
+            updateDialogue("對講機", "「滋滋滋滋滋滋滋滋滋……沙沙沙……『頻率已對齊……信號干擾消除……』」對講機發出一陣強烈的聲音後歸於平靜，木盒傳出的聲音似乎變清晰了！");
+            document.getElementById('wooden-box').classList.add('ready');
+          }, 1000);
+        }
+      } else {
+        updateDialogue("對講機", "對講機已經不再發出強烈的雜訊了，只剩下微弱的沙沙聲。");
+      }
+    }
+
+    /* Scene 1: Wooden Box Interaction */
     function handleBoxClick() {
+      if (gameState.walkieCount < 9) {
+        if ("vibrate" in navigator) navigator.vibrate(30);
+        updateDialogue("神秘木盒", "機能聽到盒子裏傳出一些聲音，但聽不清楚……似乎附近的信號雜訊太強了，試試看按下對講機？");
+        return;
+      }
+
       if (!gameState.ropeCut) {
+        if ("vibrate" in navigator) navigator.vibrate([80, 40, 80]);
         gameState.ropeCut = true;
         document.getElementById('twine-rope').style.opacity = '0';
-        updateDialogue("神秘包裹", "麻繩切斷了！但上面還有一個堅硬的朱砂封印，再點擊一次破開它。");
+        updateDialogue("神秘木盒", "聲音變清晰了！粗麻繩已被切斷，上面還有一個堅硬的朱砂封印，再點擊一次破開它。");
       } else if (!gameState.sealBroken) {
+        if ("vibrate" in navigator) navigator.vibrate([150, 80, 150]);
         gameState.sealBroken = true;
         document.getElementById('wax-seal').style.transform = 'scale(1.3)';
         document.getElementById('wax-seal').style.opacity = '0';
-        updateDialogue("神秘包裹", "朱砂封印碎裂！木盒緩緩打開，露出裡面的八卦轉盤鎖與一張古舊紙條。");
+        updateDialogue("神秘木盒", "朱砂封印碎裂！木盒緩緩打開，露出裏面的八卦轉盤鎖與一張古舊紙條。");
 
         setTimeout(() => {
           switchScene('scene-1', 'scene-2');
@@ -379,7 +512,7 @@
       if (!gameState.candleLit) {
         gameState.candleLit = true;
         document.getElementById('secret-text').classList.add('revealed');
-        updateDialogue("殘燭", "燭光照亮了古紙背面的隱形朱砂字跡！那是屬於妳的特殊日子。");
+        updateDialogue("殘燭", "燭光照亮了古紙背面的隱形字跡！那是屬於妳的特殊日子。");
       }
     }
 
@@ -399,12 +532,14 @@
 
     function checkPuzzle() {
       if (gameState.selectedMonth === CONFIG.targetMonth && gameState.selectedDay === CONFIG.targetDay) {
+        if ("vibrate" in navigator) navigator.vibrate([200, 100, 200, 100, 400]);
         updateDialogue("機關卡嗒聲", "密碼正確！古鎖轟然解開，陰暗的氣氛瞬間煙消雲散！");
         setTimeout(() => {
           triggerBirthdayReveal();
         }, 1000);
       } else {
-        updateDialogue("八卦密碼鎖", "轉盤紋絲不動...似乎日期組合並不正確。");
+        if ("vibrate" in navigator) navigator.vibrate(100);
+        updateDialogue("八卦密碼鎖", "轉盤紋絲不動……似乎日期組合並不正確。");
       }
     }
 
@@ -412,7 +547,7 @@
     function triggerBirthdayReveal() {
       switchScene('scene-2', 'scene-3');
       document.getElementById('game-container').classList.add('celebration-theme');
-      updateDialogue("HAPPY BIRTHDAY!", `驚喜！祝 ${CONFIG.friendName} 生日快樂！這不是陰森的懸疑故事，而是專屬於妳的生日祝福！`);
+      updateDialogue("HAPPY BIRTHDAY!", `驚喜！祝 ${CONFIG.friendName} 生日快樂！這不是陰森的懸疑故事，而是大家為妳準備的生日祝福！`);
       startConfetti();
     }
 
@@ -422,12 +557,10 @@
     }
 
     function openRealGift() {
-      alert(`🎉 祝福已被領取！`);
+      alert(`🎉 祝福已被領取！\n提示：快去查收為你準備的實體禮物吧！`);
     }
 
-    /* ==========================================
-       CONFETTI EFFECT (Pure JS Canvas)
-       ========================================== */
+    /* Confetti Animation */
     function startConfetti() {
       const canvas = document.getElementById('confetti-canvas');
       const ctx = canvas.getContext('2d');
